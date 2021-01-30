@@ -12,13 +12,13 @@ class Content(Mapping):
 
     @classmethod
     def load(cls, string):
-        _, fm, content = Content.__regex.split(string, 2)
-        load(fm, Loader=FullLoader)
+        _, fm, content = cls.__regex.split(string, 2)
+        metadata = load(fm, Loader=FullLoader)
         return cls(metadata, content)
 
     def __init__(self, metadata, content):
         self.data = metadata
-        self.data += {"content": content}
+        self.data["content"]= content
 
     @property
     def body(self):
@@ -29,8 +29,8 @@ class Content(Mapping):
         return self.data["type"] if "type" in self.data else None
 
     @type.setter
-    def type(self, value):
-        self.data["type"] = value
+    def type(self, type):
+        self.data["type"] = type
 
     def __getitem__(self, key):
         return self.data[key]
